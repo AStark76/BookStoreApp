@@ -113,6 +113,20 @@ namespace BookStoreApp.Api.Data
                     PasswordHash = hasher.HashPassword(null, "P@ssword1")
                 }
             );
+
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+                new IdentityUserRole<string>
+                {
+                    RoleId = "d0c2b008-5990-4ac0-8a2d-ae7deb4634dd",
+                    UserId = "8e5bf55f-4a47-4b9c-bf10-83dbb7472b7f"
+                },
+                new IdentityUserRole<string>
+                {
+                    RoleId = "91f5348a-772e-4e21-be2a-3217e4257193",
+                    UserId = "34c86f35-08e4-4c8b-85fb-9d30f3eea4c6"
+                }
+            );
+
             OnModelCreatingPartial(modelBuilder);
         }
 
