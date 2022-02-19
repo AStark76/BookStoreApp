@@ -74,6 +74,7 @@ namespace BookStoreApp.Api.Controllers
         // PUT: api/Authors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Administrator")]
         public async Task<ActionResult> PutAuthor(int id, AuthorUpdateDto authorDto)
         {
             try
@@ -125,6 +126,7 @@ namespace BookStoreApp.Api.Controllers
         // POST: api/Authors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<ActionResult<AuthorCreateDto>> PostAuthor(AuthorCreateDto authorDto)
         {
             var author = mapper.Map<Author>(authorDto);
@@ -136,6 +138,7 @@ namespace BookStoreApp.Api.Controllers
 
         // DELETE: api/Authors/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrator")]
         public async Task<ActionResult> DeleteAuthor(int id)
         {
             try
