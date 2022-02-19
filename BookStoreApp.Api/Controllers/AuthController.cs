@@ -65,7 +65,7 @@ namespace BookStoreApp.Api.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login(LogingUserDto userDto)
+        public async Task<ActionResult<AuthResponse>> Login(LogingUserDto userDto)
         {
             logger.LogInformation($"Login attempt for {userDto.Email}");
             try
@@ -78,7 +78,13 @@ namespace BookStoreApp.Api.Controllers
                 }
 
                 string tokenString = await GenerateToken(user);
-                return Accepted();
+                var respone = new AuthResponse
+                {
+                    Email = userDto.Email,
+                    Token = tokenString,
+                    UserId = user.Id
+                };
+                return respone;
             }
             catch (Exception ex)
             {
@@ -112,7 +118,7 @@ namespace BookStoreApp.Api.Controllers
                 issuer: _configuration["JwtSettings:Issuer"],
                 audience: _configuration["JwtSettings:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(Convert.ToInt16(_configuration["JwtSettings:Duration"])),
+                expires: DateTime.UtcNow.AddHours(Convert.ToInt32(_configuration["JwtSettings:Duration"])),
                 signingCredentials: credentials
             );
             return new JwtSecurityTokenHandler().WriteToken(token);
