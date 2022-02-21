@@ -1,0 +1,50 @@
+﻿@page "/users/login"
+@using BookStoreApp.Blazor.Server.UI.Services.Authentication
+@inject IAuthenticationService authenticationService
+
+<h3>Login</h3>
+
+<div class="card-body">
+    <EditForm Model="LoginModel" OnValidSubmit="HandleLogin">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <InputText class="form-control" @bind-Value="LoginModel.Email" />
+            <ValidationMessage For="@(()=> LoginModel.Email)" />
+        </div>
+        <div class="form-group">
+            <label for="email">Password</label>
+            <InputText class="form-control" type="password" @bind-Value="LoginModel.Password" />
+            <ValidationMessage For="@(()=> LoginModel.Password)" />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Register</button>
+    </EditForm>
+</div>
+
+@code {
+    LogingUserDto LoginModel = new LogingUserDto();
+    private string message = String.Empty;
+
+    public async Task HandleLogin()
+    {
+        try
+        {
+            var response = await authenticationService.AuthenticateAsync(LoginModel);
+
+            if (response)
+            {
+
+            }
+            message = "Invalid Credentials, please try again.";
+        }
+        catch (ApiException ex)
+        {
+            if (ex.StatusCode >= 200 && ex.StatusCode <= 299)
+            {
+
+            }
+            message = ex.Response;
+        }
+    }
+}
