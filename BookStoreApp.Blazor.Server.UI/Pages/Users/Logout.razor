@@ -1,9 +1,9 @@
-﻿@page "users/logout"
+﻿@page "/users/logout"
 @inject IAuthenticationService authService
 @inject NavigationManager navManager
 
 @code {
-    protected override Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await authService.Logout();
         navManager.NavigateTo("/");

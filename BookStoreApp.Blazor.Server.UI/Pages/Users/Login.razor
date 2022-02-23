@@ -1,6 +1,7 @@
 ﻿@page "/users/login"
 @using BookStoreApp.Blazor.Server.UI.Services.Authentication
-@inject IAuthenticationService authenticationService
+@inject IAuthenticationService _authenticationService
+@inject NavigationManager _navManager
 
 <h3>Login</h3>
 
@@ -30,11 +31,11 @@
     {
         try
         {
-            var response = await authenticationService.AuthenticateAsync(LoginModel);
+            var response = await _authenticationService.AuthenticateAsync(LoginModel);
 
             if (response)
             {
-
+                _navManager.NavigateTo("/");
             }
             message = "Invalid Credentials, please try again.";
         }
