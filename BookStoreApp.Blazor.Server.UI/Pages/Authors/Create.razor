@@ -1,6 +1,9 @@
 ﻿@page "/authors/create/"
+@using Microsoft.AspNetCore.Identity
 @inject IAuthorService authorService
 @inject NavigationManager navigationManager
+@attribute [Authorize(Roles = Roles.Administrator)]
+
 <h3>Create new author</h3>
 <EditForm Model="Author" OnValidSubmit="HandleCreateAuthor">
     <DataAnnotationsValidator />
@@ -22,11 +25,13 @@
         <InputText @bind-Value="@Author.Bio" class="form-control" id="bio" />
         <ValidationMessage For="@(()=> Author.Bio)"></ValidationMessage>
     </div>
-    <br />
-    <button class="btn btn-primary" type="submit">
-        <span class="oi oi-pencil">  </span>
-        Create Author
-    </button>
+    <AuthorizeView Roles="Administrator">
+        <br />
+        <button class="btn btn-primary" type="submit">
+            <span class="oi oi-pencil">  </span>
+            Create Author
+        </button>
+    </AuthorizeView>
     <br />
     <button class="btn btn-secondary" @onclick="BackToList">
         <span class="oi oi-media-skip-backward">  </span>

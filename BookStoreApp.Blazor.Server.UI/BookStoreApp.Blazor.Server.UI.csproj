@@ -18,4 +18,8 @@
 		<Folder Include="Data\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\BookStoreApp.Api\BookStoreApp.Api.csproj" />
+	</ItemGroup>
+
 </Project>

@@ -40,8 +40,10 @@ else
                     <td>@author.LastName</td>
                     <td>
                         <a class="btn btn-primary" href="/authors/details"><span class="oi oi-book">  </span>Details </a>
-                        <a class="btn btn-warning" href="/authors/update/@author.Id"><span class="oi oi-pencil">  </span>Edit </a>
-                        <button class="btn btn-danger" @onclick="@(()=>Delete(author.Id))" href="/authors/delete"><span class="oi oi-delete">  </span>Delete</button>
+                        <AuthorizeView Roles="Administrator">
+                            <a class="btn btn-warning" href="/authors/update/@author.Id"><span class="oi oi-pencil">  </span>Edit </a>
+                            <button class="btn btn-danger" @onclick="@(()=>Delete(author.Id))" href="/authors/delete"><span class="oi oi-delete">  </span>Delete</button>
+                        </AuthorizeView>
                     </td>
                 </tr>
             }
