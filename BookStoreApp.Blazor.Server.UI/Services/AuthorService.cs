@@ -38,7 +38,7 @@ namespace BookStoreApp.Blazor.Server.UI.Services
             return response;
         }
 
-        public async Task<Response<AuthorReadOnlyDto>> GetAuthor(int id)
+        public async Task<Response<AuthorDetailsDto>> GetAuthor(int id)
         {
             Response<AuthorReadOnlyDto> response;
             try
