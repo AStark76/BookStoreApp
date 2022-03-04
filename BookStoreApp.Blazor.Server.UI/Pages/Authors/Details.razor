@@ -3,31 +3,31 @@
 @inject NavigationManager navigationManager
 
 <h3>Authors details: - @Author.LastName </h3>
-<EditForm Model="Author" >
+<EditForm Model="Author">
     <fieldset disabled="true">
         <div class="form-group">
-            <label for="firstname">First name</label> 
-            <InputText @bind-Value="@Author.FirstName" class="form-control" id="firstname"/>
+            <label for="firstname">First name</label>
+            <InputText @bind-Value="@Author.FirstName" class="form-control" id="firstname" />
             <ValidationMessage For="@(() => Author.FirstName)"></ValidationMessage>
         </div>
-        <br/>
+        <br />
         <div class="form-group">
             <label for="lastname">Last name</label>
-            <InputText @bind-Value="@Author.LastName" class="form-control" id="lastname"/>
+            <InputText @bind-Value="@Author.LastName" class="form-control" id="lastname" />
             <ValidationMessage For="@(() => Author.LastName)"></ValidationMessage>
         </div>
-        <br/>
+        <br />
         <div class="form-group">
             <label for="bio">Biography</label>
-            <InputText @bind-Value="@Author.Bio" class="form-control" id="bio"/>
+            <InputText @bind-Value="@Author.Bio" class="form-control" id="bio" />
             <ValidationMessage For="@(() => Author.Bio)"></ValidationMessage>
         </div>
-        <br/>
+        <br />
         <button class="btn btn-warning" @onclick="GoToEdit">
             <span class="oi oi-media-skip-backward"> </span>
             Edit Author
         </button>
-        <br/>
+        <br />
         <button class="btn btn-outline-secondary" @onclick="BackToList">
             <span class="oi oi-media-skip-backward"> </span>
             Back to List
@@ -36,22 +36,22 @@
 
     @if (null == Author.Books || false == Author.Books.Any())
     {
-            <div class="alert alert-dismissible alert-secondary">
-                No Books for this Author
-            </div>
+        <div class="alert alert-dismissible alert-secondary">
+            No Books for this Author
+        </div>
     }
     else
     {
         foreach (var book in Author.Books)
         {
-                    <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="@book.Image" alt="@book.Title">
-                        <div class="card-body">
-                            <h5 class="card-title">@book.Title</h5>
-                            <p class="card-text">@book.Title - @book.Price.ToString("C")</p>
-                            <a href="/" class="btn btn-primary">View Book</a>
-                        </div>
-                    </div>
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="@book.Image" alt="@book.Title">
+                <div class="card-body">
+                    <h5 class="card-title">@book.Title</h5>
+                    <p class="card-text">@book.Title - @book.Price.ToString("C")</p>
+                    <a href="/" class="btn btn-primary">View Book</a>
+                </div>
+            </div>
         }
 
     }
@@ -68,7 +68,7 @@
 
     protected async override Task OnInitializedAsync()
     {
-        var response = await authorService.GetAuthor(id);
+        var response = await authorService.Get(id);
         if (response.Success)
         {
             Author = response.Data;
