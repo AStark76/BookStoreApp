@@ -12,4 +12,6 @@ namespace BookStoreApp.Blazor.Server.UI.Services
         Task<Response<int>> EditAuthor(int id, AuthorUpdateDto author);
         Task<Response<int>> Delete(int authorId);
     }
+
 }
+

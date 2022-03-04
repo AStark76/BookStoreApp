@@ -1,0 +1,83 @@
+﻿@page "/books/"
+@using Microsoft.AspNetCore.Authentication.OAuth.Claims
+@using Microsoft.AspNetCore.Identity
+@inject IClient httpClient
+@inject IBookService bookService
+@inject IJSRuntime js
+
+<h3>Index</h3>
+
+@if (false == response.Success)
+{
+    <div class="alert alert-info">
+        <h4>@response.Message</h4>
+    </div>
+}
+
+@if (null == Books)
+{
+    <div class="alert alert-info">
+        <h4>Loading Data...</h4>
+    </div>
+}
+else
+{
+    <a class="btn btn-primary" href="/Books/create"><span class="oi oi-plus"></span>Create </a>
+    <br />
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Authorname</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Books)
+            {
+                <tr>
+                    <td><img src="@book.Image" width="100" height="100" alt="@book.Title" /></td>
+                    <td>@book.Title</td>
+                    <td>@book.Price.ToString("C")</td>
+                    <td>@book.AuthorName</td>
+                    <td>
+                        <a class="btn btn-primary" href="/Books/details"><span class="oi oi-book">  </span>Details </a>
+                        <AuthorizeView Roles="Administrator">
+                            <a class="btn btn-warning" href="/Books/update/@book.Id"><span class="oi oi-pencil">  </span>Edit </a>
+                            <button class="btn btn-danger" @onclick="@(()=>Delete(book.Id))" href="/Books/delete"><span class="oi oi-delete">  </span>Delete</button>
+                        </AuthorizeView>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    private List<BookReadOnlyDto> Books;
+    private Response<List<BookReadOnlyDto>> response = new Response<List<BookReadOnlyDto>>() { Success = true };
+    protected override async Task OnInitializedAsync()
+    {
+        response = await bookService.GetBooks();
+        if (response.Success)
+        {
+            Books = response.Data;
+        }
+    }
+
+    private async Task Delete(int bookId)
+    {
+        var Book = Books.First(q => q.Id == bookId);
+        bool confirm = await js.InvokeAsync<bool>("confirm", $"Are you sure you want to delete {Book.Title} ");
+
+        if (confirm)
+        {
+            var response = await bookService.Delete(bookId);
+            if (response.Success)
+            {
+                await this.OnInitializedAsync();
+            }
+        }
+
+    }
+}
